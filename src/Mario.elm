@@ -102,40 +102,60 @@ update computer mario =
     newY = max 0 (mario.y + dt * vy)
     collided = ((hypot (mario.x - 200) (mario.y - 0) <= 60))
   in
-    { mario
-      | x =
-            if collided then
-                0
-            else
-                newX
-      , y =
-            if collided then
-                0
-            else
-                newY
-      , vx =
-          if collided then
-             0
-         else
-             vx
-      , vy =
-          if collided then
-             0
-         else
-             (newY - mario.y) / dt
-      , dir =
-          if (toX computer.keyboard) < 0 then
-            Left
-          else if (toX computer.keyboard) > 0 then
-            Right
-          else
-            mario.dir  -- face direction of last movement when standing still
-      , trace =
-          if collided then
-              []
-          else
-              addPointUnlessDuplicate (newX, newY) mario.trace
-    }
+    if collided then
+    {mario | x = 0
+               , y = 0
+               , vx = 0
+               , vy = 0
+               , dir = Right
+               , trace = [] }
+    else
+    {mario | x = newX
+                  , y = newY
+                  , vx = vx
+                 , vy = (newY - mario.y) / dt
+                 , dir =
+                        if (toX computer.keyboard) < 0 then
+                                     Left
+                                   else if (toX computer.keyboard) > 0 then
+                                     Right
+                                   else
+                                     mario.dir  -- face direction of last movement when standing still
+                 , trace = addPointUnlessDuplicate (newX, newY) mario.trace  }
+    --{ mario
+    --  | x =
+    --        if collided then
+    --            0
+    --        else
+    --            newX
+    --  , y =
+    --        if collided then
+    --            0
+    --        else
+    --            newY
+    --  , vx =
+    --      if collided then
+    --         0
+    --     else
+    --         vx
+    --  , vy =
+    --      if collided then
+    --         0
+    --     else
+    --         (newY - mario.y) / dt
+    --  , dir =
+    --      if (toX computer.keyboard) < 0 then
+    --        Left
+    --      else if (toX computer.keyboard) > 0 then
+    --        Right
+    --      else
+    --        mario.dir  -- face direction of last movement when standing still
+    --  , trace =
+    --      if collided then
+    --          []
+    --      else
+    --          addPointUnlessDuplicate (newX, newY) mario.trace
+    --}
 
 addPointUnlessDuplicate point path =
   if (List.head path) == Just point then

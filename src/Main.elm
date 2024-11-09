@@ -15,6 +15,6 @@ gameApplication game =
 
 -- The main entry point for the app
 
-main = Asteroids.game
+main = Mario.game
     |> addTimeTravel
     |> gameApplication

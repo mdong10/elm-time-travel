@@ -33,7 +33,7 @@ viewWithTimeTravel rawGame computer model =
                         |> fade opacity
             helpMessage =
                 if model.paused then
-                    "Press R to resume or drag history to travel through time"
+                    "Press R to resume or drag history bar to travel through time"
                 else
                     "Press T to time travel"
     in
@@ -70,6 +70,11 @@ updateWithTimeTravel rawGame computer model =
         else if keyPressed "R" computer then
               { model | paused = False
                             , history = List.take model.historyPlaybackPosition model.history}
+       else if keyPressed "C" computer then
+              {model | rawModel = rawGame.initialState
+                         , paused = False
+                         , history = []
+                         , historyPlaybackPosition = 0}
         else if model.paused then
             model
         else
